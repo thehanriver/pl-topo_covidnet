@@ -155,7 +155,7 @@ class Topo_covidnet(ChrisApp):
         """
         print(Gstr_title)
         print('Version: %s' % self.get_version())
-                all_three_models = [
+        all_three_models = [
             # {
             #     'weightspath':'/models/COVIDNet-CXR3-A',
             #     'ckptname':'model-2856',
