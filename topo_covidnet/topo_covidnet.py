@@ -9,13 +9,19 @@
 #
 
 from chrisapp.base import ChrisApp
+import os
+import sys
+from .inference import Inference
 
-
-Gstr_title = r"""
-
-Generate a title from 
-http://patorjk.com/software/taag/#p=display&f=Doom&t=topo_covidnet
-
+Gstr_title = """
+ _                                   _     _            _   
+| |                                 (_)   | |          | |  
+| |_ ___  _ __   ___   ___ _____   ___  __| |_ __   ___| |_ 
+| __/ _ \| '_ \ / _ \ / __/ _ \ \ / / |/ _` | '_ \ / _ \ __|
+| || (_) | |_) | (_) | (_| (_) \ V /| | (_| | | | |  __/ |_ 
+ \__\___/| .__/ \___/ \___\___/ \_/ |_|\__,_|_| |_|\___|\__|
+         | |      ______                                    
+         |_|     |______|                                   
 """
 
 Gstr_synopsis = """
@@ -96,25 +102,52 @@ class Topo_covidnet(ChrisApp):
     MIN_MEMORY_LIMIT        = 200  # Override with memory MegaByte (MB) limit as int
     MIN_GPU_LIMIT           = 0    # Override with the minimum number of GPUs as int
     MAX_GPU_LIMIT           = 0    # Override with the maximum number of GPUs as int
-
-    # Use this dictionary structure to provide key-value output descriptive information
-    # that may be useful for the next downstream plugin. For example:
-    #
-    # {
-    #   "finalOutputFile":  "final/file.out",
-    #   "viewer":           "genericTextViewer",
-    # }
-    #
-    # The above dictionary is saved when plugin is called with a ``--saveoutputmeta``
-    # flag. Note also that all file paths are relative to the system specified
-    # output directory.
     OUTPUT_META_DICT = {}
 
     def define_parameters(self):
         """
-        Define the CLI arguments accepted by this plugin app.
-        Use self.add_argument to specify a new app argument.
+        Arguments accepted by plugin
         """
+        self.add_argument('--parInst',
+        	dest      = 'parInst',
+        	type      = str,
+        	optional  = False,
+        	help      = 'Parent instance ID',)
+        self.add_argument('--metaname', 
+                    dest         = 'metaname', 
+                    type         = str, 
+                    optional     = True,
+                    help         = 'Name of ckpt meta file',
+                    default      = 'model.meta')
+        self.add_argument('--imagefile', 
+                    dest         = 'imagefile', 
+                    type         = str, 
+                    optional     = False,
+                    help         = 'Name of image file to infer from')
+        self.add_argument('--in_tensorname', 
+                    dest         = 'in_tensorname', 
+                    type         = str, 
+                    optional     = True,
+                    help         = 'Name of input tensor to graph',
+                    default      = 'input_1:0')
+        self.add_argument('--out_tensorname', 
+                    dest         = 'out_tensorname', 
+                    type         = str, 
+                    optional     = True,
+                    help         = 'Name of output tensor from graph',
+                    default      = 'norm_dense_1/Softmax:0')
+        self.add_argument('--input_size', 
+                    dest         = 'input_size', 
+                    type         = int, 
+                    optional     = True,
+                    help         = 'Size of input (ex: if 480x480, --input_size 480)',
+                    default      = 480)
+        self.add_argument('--top_percent', 
+                    dest         = 'top_percent', 
+                    type         = float, 
+                    optional     = True,
+                    help         = 'Percent top crop from top of image',
+                    default      = 0.08)
 
     def run(self, options):
         """
@@ -122,6 +155,29 @@ class Topo_covidnet(ChrisApp):
         """
         print(Gstr_title)
         print('Version: %s' % self.get_version())
+                all_three_models = [
+            # {
+            #     'weightspath':'/models/COVIDNet-CXR3-A',
+            #     'ckptname':'model-2856',
+            #     'modelused':'modelA'
+            # }, 
+            {
+                'weightspath':'/usr/local/lib/covidnet/COVIDNet-CXR4-B',
+                'ckptname':'model-1545',
+                'modelused':'modelB'
+            },
+            # {
+            #     'weightspath': '/models/COVIDNet-CXR3-C',
+            #     'ckptname':'model-0',
+            #     'modelused':'modelC'
+            # }
+        ]
+        for model in all_three_models:
+            options.weightspath =model['weightspath']
+            options.ckptname = model['ckptname']
+            options.modelused = model['modelused']
+            infer_obj = Inference(options)
+            infer_obj.infer()
 
     def show_man_page(self):
         """
