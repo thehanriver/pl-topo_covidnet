@@ -2,13 +2,13 @@ pl-topo_covidnet
 ================================
 
 .. image:: https://img.shields.io/docker/v/fnndsc/pl-topo_covidnet?sort=semver
-    :target: https://hub.docker.com/r/fnndsc/pl-topo_covidnet
+    :target: https://hub.docker.com/r/thehanriver/pl-topo_covidnet
 
 .. image:: https://img.shields.io/github/license/fnndsc/pl-topo_covidnet
-    :target: https://github.com/FNNDSC/pl-topo_covidnet/blob/master/LICENSE
+    :target: https://github.com/thehanriver/pl-topo_covidnet/blob/master/LICENSE
 
 .. image:: https://github.com/FNNDSC/pl-topo_covidnet/workflows/ci/badge.svg
-    :target: https://github.com/FNNDSC/pl-topo_covidnet/actions
+    :target: https://github.com/thehanriver/pl-topo_covidnet/actions
 
 
 .. contents:: Table of Contents
