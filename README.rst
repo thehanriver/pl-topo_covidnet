@@ -17,13 +17,13 @@ pl-topo_covidnet
 Abstract
 --------
 
-An app to work with TS plugins
+An app to work with TS plugins for with COVIDNET
 
 
 Description
 -----------
 
-``topo_covidnet`` is a ChRIS-based application that...
+``topo_covidnet`` is a ChRIS-based application that is a copy of covidnet that also puts output in a sub directory
 
 
 Usage
@@ -37,6 +37,7 @@ Usage
         [--savejson <DIR>]
         [-v|--verbosity <level>]
         [--version]
+        [--parInst]
         <inputDir> <outputDir>
 
 
@@ -65,6 +66,9 @@ Arguments
     
     [--version]
     If specified, print version number and exit. 
+    
+    [--parInst]
+    Takes in Parent Instance ID to make sub directory in output
 
 
 Getting inline help is:
@@ -81,9 +85,9 @@ You need to specify input and output directories using the `-v` flag to `docker 
 
 .. code:: bash
 
-    docker run --rm -u $(id -u)                             \
-        -v $(pwd)/in:/incoming -v $(pwd)/out:/outgoing      \
-        fnndsc/pl-topo_covidnet topo_covidnet                        \
+    docker run --rm -u $(id -u)                                         \
+        -v $(pwd)/in:/incoming -v $(pwd)/out:/outgoing                  \
+        fnndsc/pl-topo_covidnet topo_covidnet   --parInst <insert ID>   \
         /incoming /outgoing
 
 
