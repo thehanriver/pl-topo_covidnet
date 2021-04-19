@@ -7,7 +7,7 @@ with open(path.join(path.dirname(path.abspath(__file__)), 'README.rst')) as f:
 setup(
     name             = 'topo_covidnet',
     version          = '0.0.1',
-    description      = 'An app to work with TS plugins',
+    description      = 'An app to work with topo_covidnet workflow',
     long_description = readme,
     author           = 'Mario Han',
     author_email     = 'hanmario@bu.edu',
