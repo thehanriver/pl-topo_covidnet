@@ -90,6 +90,11 @@ You need to specify input and output directories using the `-v` flag to `docker 
         fnndsc/pl-topo_covidnet topo_covidnet   --parInst <insert ID>   \
         /incoming /outgoing
 
+.. code:: bash
+
+    docker run --rm -v $PWD/in:/incoming -v $PWD/out:/outgoing    \
+        fnndsc/pl-topo_covidnet topo_covidnet                         \
+               --imagefile ex-covid.jpeg /incoming /outgoing
 
 Development
 -----------

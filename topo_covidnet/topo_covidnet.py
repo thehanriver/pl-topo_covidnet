@@ -111,8 +111,9 @@ class Topo_covidnet(ChrisApp):
         self.add_argument('--parInst',
         	dest      = 'parInst',
         	type      = str,
-        	optional  = False,
-        	help      = 'Parent instance ID',)
+        	optional  = True,
+        	help      = 'Parent instance ID',
+            default   = 'patient_folder')
         self.add_argument('--metaname', 
                     dest         = 'metaname', 
                     type         = str, 
